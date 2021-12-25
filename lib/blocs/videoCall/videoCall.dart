@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/webrtc.dart';
+import 'package:shastho_sheba_doctor/models/schedule.dart';
 
 import 'callState.dart';
 import '../chamber/signaling.dart';
@@ -14,14 +15,15 @@ class VideoCallBloc extends ChangeNotifier implements BaseBloc {
   Signaling _signaling;
   RTCVideoRenderer localRenderer = RTCVideoRenderer();
   RTCVideoRenderer remoteRenderer = RTCVideoRenderer();
-  Appointment _appointment;
+  //Appointment _appointment;
+  Schedule _schedule;
   bool audio = true, video = true;
 
   StreamSink<Response<CallState>> get sink => _videoCallController.sink;
 
   Stream<Response<CallState>> get stream => _videoCallController.stream;
 
-  VideoCallBloc(this._signaling, this._appointment) {
+  VideoCallBloc(this._signaling, this._schedule) {
     _videoCallController = StreamController<Response<CallState>>();
 
     _signaling.onCallConnected =
@@ -44,7 +46,7 @@ class VideoCallBloc extends ChangeNotifier implements BaseBloc {
 
     _initRenderders();
 
-    _signaling.call(_appointment.id);
+    _signaling.call(_schedule.id);
 
     sink.add(Response.completed(CallState.Calling));
   }
@@ -69,7 +71,7 @@ class VideoCallBloc extends ChangeNotifier implements BaseBloc {
   }
 
   void endCall() {
-    _signaling.endCall(_appointment.id);
+    _signaling.endCall(_schedule.id);
   }
 
   @override

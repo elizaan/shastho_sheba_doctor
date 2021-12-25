@@ -16,13 +16,13 @@ class ChamberBloc extends ChangeNotifier implements BaseBloc {
   Schedule _schedule;
   Map<String, bool> online = Map<String, bool>();
 
-  StreamSink<Response<List<Appointment>>> get sink => _chamberController.sink;
+  StreamSink<Response<List<Schedule>>> get sink => _chamberController.sink;
 
-  Stream<Response<List<Appointment>>> get stream => _chamberController.stream;
+  Stream<Response<List<Schedule>>> get stream => _chamberController.stream;
 
   ChamberBloc(this._schedule) {
     _chamberRepository = ChamberRepository();
-    _chamberController = StreamController<Response<List<Appointment>>>();
+    _chamberController = StreamController<Response<List<Schedule>>>();
     messenger = Messenger(_chamberRepository.getURL(), this);
     fetchChamberList();
   }
@@ -30,11 +30,12 @@ class ChamberBloc extends ChangeNotifier implements BaseBloc {
   Future<void> fetchChamberList() async {
     sink.add(Response.loading("Loading Appointment List"));
     try {
-      List<Appointment> data =
-          await _chamberRepository.appointmentList(_schedule);
-      messenger.init(data);
-      data.forEach((appointment) => online.addAll({appointment.id: false}));
-      sink.add(Response.completed(data));
+      // List<Appointment> data =
+      //     await _chamberRepository.appointmentList(_schedule);
+      messenger.init(_schedule);
+      // data.forEach((appointment) => online.addAll({appointment.id: false}));
+      online.addAll({_schedule.id: false});
+      
     } catch (e) {
       sink.add(Response.error(e.toString()));
     }

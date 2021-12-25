@@ -1,3 +1,4 @@
+import 'package:shastho_sheba_doctor/models/schedule.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +14,7 @@ class Messenger {
 
   Messenger(this._url, this._chamberBloc);
 
-  void init(List<Appointment> appointments) async {
+  void init(Schedule schedule) async {
     _socket = io(_url, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -30,14 +31,14 @@ class Messenger {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         String jwt = sharedPreferences.getString('jwt');
-        appointments.forEach((appointment) {
+        
           print('join');
           _socket.emit('join', {
             'token': 'Bearer ' + jwt,
             'type': 'doctor',
-            'chamberId': appointment.id,
+            'chamberId': schedule.id,
           });
-        });
+       
       },
     );
 
