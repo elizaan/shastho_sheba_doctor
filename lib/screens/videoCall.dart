@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_webrtc/webrtc.dart';
+import 'package:shastho_sheba_doctor/models/schedule.dart';
 
 import '../utils.dart';
 import '../routes.dart';
@@ -16,9 +17,9 @@ class VideoCallScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     Messenger messenger = args['messenger'];
-    Appointment appointment = args['appointment'];
+    Schedule schedule = args['schedule'];
     return ChangeNotifierProvider(
-      create: (context) => VideoCallBloc(messenger.signaling, appointment),
+      create: (context) => VideoCallBloc(messenger.signaling, schedule),
       builder: (context, child) {
         VideoCallBloc videoCallBloc = Provider.of<VideoCallBloc>(context);
         return StreamBuilder(
@@ -26,9 +27,11 @@ class VideoCallScreen extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               Response<CallState> response = snapshot.data;
+              print('in video call');
+              print(response.data);
               switch (response.data) {
                 case CallState.Calling:
-                  return _CallingScreen(appointment.patient);
+                  return _CallingScreen(schedule);
                 case CallState.Connected:
                   return _VideoCall();
                 case CallState.EndCall:
@@ -85,27 +88,6 @@ class _CallingScreen extends StatelessWidget {
                 ),
                 Text(
                   'You are calling',
-                  style: L,
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  patient.name,
-                  style: XL.copyWith(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  'Age: ${DateTime.now().difference(patient.dob).inDays ~/ 365}',
-                  style: L,
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  'Sex: ${patient.sex}',
                   style: L,
                 ),
                 Expanded(child: SizedBox()),

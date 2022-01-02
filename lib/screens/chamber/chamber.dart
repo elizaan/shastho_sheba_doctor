@@ -21,132 +21,56 @@ class ChamberScreen extends StatelessWidget {
         ' - ' +
         DateFormat('hh:mm a').format(schedule.end);
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(backgroundimage),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: lightBlue,
-          centerTitle: true,
-          title: Text(chamberName),
-        ),
-        drawer: SafeArea(
-          child: MyDrawer(Selected.none),
-        ),
-        body: SafeArea(
-          child: ChangeNotifierProvider(
-            create: (context) => ChamberBloc(schedule),
-            child: Builder(
-              builder: (context) {
-                ChamberBloc chamberBloc = Provider.of<ChamberBloc>(context);
-                return RefreshIndicator(
-                  onRefresh: () => chamberBloc.fetchChamberList(),
-                  child: StreamBuilder(
-                    stream: chamberBloc.stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        Response<List<Appointment>> response = snapshot.data;
-                        switch (response.status) {
-                          case Status.LOADING:
-                            return Center(
-                              child: Loading(response.message),
-                            );
-                          case Status.COMPLETED:
-                            return ListView.builder(
-                              padding: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 0.0),
-                              itemCount: response.data.length,
-                              itemBuilder: (context, index) {
-                                return _Expandable(response.data[index]);
-                              },
-                            );
-                          case Status.ERROR:
-                            print(response.message);
-                            return Center(
-                              child: Error(
-                                message: response.message,
-                                onPressed: () => chamberBloc.fetchChamberList(),
-                              ),
-                            );
-                        }
-                      }
-                      return Container();
-                    },
-                  ),
-                );
-              },
-            ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(backgroundimage),
+            fit: BoxFit.cover,
           ),
         ),
-      ),
-    );
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: lightBlue,
+            centerTitle: true,
+            title: Text(chamberName),
+          ),
+          drawer: SafeArea(
+            child: MyDrawer(Selected.none),
+          ),
+          body: SafeArea(
+              child: ChangeNotifierProvider(
+                  create: (context) => ChamberBloc(schedule),
+                  child: Builder(builder: (context) {
+                    ChamberBloc chamberBloc = Provider.of<ChamberBloc>(context);
+                    return RefreshIndicator(
+                        onRefresh: () => chamberBloc.fetchChamberList(),
+                        child: StreamBuilder(
+                            stream: chamberBloc.stream,
+                            builder: (context, snapshot) {
+                              return _Expandable(schedule);
+                            }));
+                  }))),
+        ));
   }
 }
 
 class _Expandable extends StatelessWidget {
-  final Appointment appointment;
+  final Schedule schedule;
 
-  _Expandable(this.appointment);
+  _Expandable(this.schedule);
 
   _buildList(BuildContext context) {
     ChamberBloc chamberBloc = Provider.of<ChamberBloc>(context);
-    Duration difference = DateTime.now().difference(appointment.patient.dob);
-    int age = (difference.inDays ~/ 365).toInt();
-    return Column(
+
+    return Container(
+        child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          "Serial No: ${appointment.serialNo}",
+          "Day: ${schedule.day}",
           style: M.copyWith(color: Colors.white),
-        ),
-        Text(
-          "Age: ${age.toString()}",
-          style: M.copyWith(color: Colors.white),
-        ),
-        Text(
-          "Sex: ${appointment.patient.sex}",
-          style: M.copyWith(color: Colors.white),
-        ),
-        Row(
-          children: <Widget>[
-            Text(
-              "Payment: ",
-              style: M.copyWith(color: Colors.white),
-            ),
-            appointment.status == AppointmentStatus.NoPayment
-                ? Text('No Payment Provided', style: M.copyWith(color: red))
-                : appointment.status == AppointmentStatus.NotVerified
-                    ? RaisedButton.icon(
-                        icon: Icon(Icons.verified_user),
-                        textColor: Colors.white,
-                        color: blue,
-                        label: Text(
-                          'Verify',
-                          style: M,
-                        ),
-                        onPressed: () async {
-                          await Navigator.pushNamed(
-                            context,
-                            transactionsScreen,
-                            arguments: {
-                              'appointmentId': appointment.id,
-                              'fee': chamberBloc.getFee(),
-                              'verified': false,
-                            },
-                          );
-                          chamberBloc.fetchChamberList();
-                        },
-                      )
-                    : Text(
-                        'Verified',
-                        style: M.copyWith(color: mint),
-                      )
-          ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -159,25 +83,37 @@ class _Expandable extends StatelessWidget {
                 'Timeline',
                 style: M,
               ),
-              onPressed: () async {
-                await Navigator.pushNamed(
-                  context,
-                  appointmentDetailsScreen,
-                  arguments: {
-                    'messenger': chamberBloc.messenger,
-                    'appointment': appointment,
-                    'callable':
-                        appointment.status == AppointmentStatus.Verified &&
-                            chamberBloc.getStatus(appointment.id),
-                  },
-                );
-                chamberBloc.fetchChamberList();
-              },
+              // onPressed: () async {
+              //   await Navigator.pushNamed(
+              //     context,
+              //     appointmentDetailsScreen,
+              //     arguments: {
+              //       'messenger': chamberBloc.messenger,
+              //       'appointment': appointment,
+              //       'callable':
+              //           appointment.status == AppointmentStatus.Verified &&
+              //               chamberBloc.getStatus(appointment.id),
+              //     },
+              //   );
+              //   chamberBloc.fetchChamberList();
+              // },
+              onPressed: chamberBloc.getStatus(schedule.id) == true
+                  ? () {
+                      Navigator.pushNamed(
+                        context,
+                        videoCallScreen,
+                        arguments: {
+                          'messenger': chamberBloc.messenger,
+                          'schedule': schedule
+                        },
+                      );
+                    }
+                  : null,
             ),
           ],
         ),
       ],
-    );
+    ));
   }
 
   @override
@@ -196,19 +132,19 @@ class _Expandable extends StatelessWidget {
                 child: ScrollOnExpand(
                   child: ExpandablePanel(
                     header: Text(
-                      appointment.patient.name,
+                      'hello',
                       style: L.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    collapsed: Text(
-                      "Serial No: ${appointment.serialNo}",
-                      style: TextStyle(color: Colors.white),
-                      softWrap: true,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    //                 // collapsed: Text(
+                    //                 //   "Serial No: ${appointment.serialNo}",
+                    //                 //   style: TextStyle(color: Colors.white),
+                    //                 //   softWrap: true,
+                    //                 //   maxLines: 1,
+                    //                 //   overflow: TextOverflow.ellipsis,
+                    //                 // ),
                     expanded: _buildList(context),
                     theme: ExpandableThemeData(
                       iconColor: blue,
@@ -219,7 +155,7 @@ class _Expandable extends StatelessWidget {
                   ),
                 ),
               ),
-              _Status(chamberBloc.getStatus(appointment.id)),
+              _Status(chamberBloc.getStatus(schedule.id)),
             ],
           ),
         ),
