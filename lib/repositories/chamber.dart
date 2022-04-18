@@ -19,7 +19,10 @@ class ChamberRepository {
   }
 
   Future<List<Appointment>> appointmentList(Schedule schedule) async {
+    print(schedule.id);
     final data = await _api.get('/doctor/get/appointment/${schedule.id}', true);
+    print('in repository');
+    print(data['appointments']);
     return data['appointments']
         .map<Appointment>(
           (appointment) => Appointment.fromJson(appointment),

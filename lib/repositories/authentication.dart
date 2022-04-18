@@ -28,6 +28,7 @@ class AuthenticationRepository {
   }
 
   Future<void> logOut() async {
+    
     await _api.get('/doctor/logout', true);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.remove('jwt');

@@ -12,14 +12,29 @@ import '../../models/schedule.dart';
 import '../../models/appointment.dart';
 import '../../blocs/chamber/chamber.dart';
 import '../../networking/response.dart';
+import '../../repositories/chamber.dart';
 
 class ChamberScreen extends StatelessWidget {
+  ChamberRepository _chamberRepository = ChamberRepository();
+  Future<List<Appointment>> chmber_data(Schedule schedule) async
+  {
+    List<Appointment> chamber_data= await _chamberRepository.appointmentList(schedule);
+    return chamber_data;
+  }
+ Appointment appointment1;
+
   @override
   Widget build(BuildContext context) {
-    Schedule schedule = ModalRoute.of(context).settings.arguments;
+    Schedule schedule = ModalRoute
+        .of(context)
+        .settings
+        .arguments;
     String chamberName = DateFormat('hh:mm a').format(schedule.start) +
         ' - ' +
         DateFormat('hh:mm a').format(schedule.end);
+print(chamberName);
+    List<Appointment> appnt;
+
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -28,37 +43,80 @@ class ChamberScreen extends StatelessWidget {
           ),
         ),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: lightBlue,
-            centerTitle: true,
-            title: Text(chamberName),
-          ),
-          drawer: SafeArea(
-            child: MyDrawer(Selected.none),
-          ),
-          body: SafeArea(
-              child: ChangeNotifierProvider(
-                  create: (context) => ChamberBloc(schedule),
-                  child: Builder(builder: (context) {
-                    ChamberBloc chamberBloc = Provider.of<ChamberBloc>(context);
-                    return RefreshIndicator(
-                        onRefresh: () => chamberBloc.fetchChamberList(),
-                        child: StreamBuilder(
-                            stream: chamberBloc.stream,
-                            builder: (context, snapshot) {
-                              return _Expandable(schedule);
-                            }));
-                  }))),
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              elevation: 0.0,
+              backgroundColor: lightBlue,
+              centerTitle: true,
+              title: Text(chamberName),
+            ),
+            drawer: SafeArea(
+              child: MyDrawer(Selected.none),
+            ),
+            body: SafeArea(
+                child: ChangeNotifierProvider(
+                    create: (context) => ChamberBloc(schedule),
+                    child: FutureBuilder<List<Appointment>>
+
+                      (future: _chamberRepository.appointmentList(schedule),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Appointment>> snapshot) {
+                        if (!snapshot.hasData) {
+                          // while data is loading:
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        else {
+                          final List<Appointment> data_app = snapshot.data;
+                          Appointment appointment = data_app[0];
+                          return _Expandable(schedule, appointment);
+                        }
+                        //ChamberBloc chamberBloc = Provider.of<ChamberBloc>(context);
+
+                        // return RefreshIndicator(
+                        //     onRefresh: () => chamberBloc.fetchChamberList(),
+                        //     child: StreamBuilder(
+                        //         stream: chamberBloc.stream,
+                        //         builder: (context, snapshot) {
+                        // if (snapshot.hasData) {
+                        // Response<List<Schedule>> response = snapshot.data;
+                        // switch (response.status) {
+                        // case Status.LOADING:
+                        // return Center(
+                        // child: Loading(response.message),
+                        // );
+                        // case Status.COMPLETED:
+                        // return ListView.builder(
+                        // padding: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 0.0),
+                        // itemCount: response.data.length,
+                        // itemBuilder: (context, index) {
+                        // return _Expandable(schedule);
+                        // },
+                        // );
+                        // case Status.ERROR:
+                        // print(response.message);
+                        // return Center(
+                        // child: Error(
+                        // message: response.message,
+                        // onPressed: () => chamberBloc.fetchChamberList(),
+                        // ),
+                        // );
+                        return _Expandable(schedule, appointment1);
+                        // }} return Container();
+                      },)))
         ));
+
   }
-}
+  }
+
 
 class _Expandable extends StatelessWidget {
-  final Schedule schedule;
 
-  _Expandable(this.schedule);
+  final Schedule schedule;
+  final Appointment appointment;
+  _Expandable(this.schedule,this.appointment);
+
 
   _buildList(BuildContext context) {
     ChamberBloc chamberBloc = Provider.of<ChamberBloc>(context);
@@ -69,7 +127,7 @@ class _Expandable extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          "Day: ${schedule.day}",
+          "day: ${schedule.day}",
           style: M.copyWith(color: Colors.white),
         ),
         Row(
@@ -110,6 +168,26 @@ class _Expandable extends StatelessWidget {
                     }
                   : null,
             ),
+            Expanded(
+              child: new Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: RaisedButton.icon( icon: Icon(Icons.medical_services_outlined),
+                    textColor: Colors.white,
+                    color: blue,
+                    label: Text(
+                      'Add prescription',
+                      style: M,
+                    ),
+                    onPressed: (){
+
+                        Navigator.pushNamed(
+                          context,
+                          addPrescriptionScreen,
+                          arguments: appointment,
+                        );
+                    }),
+              ),
+            ),
           ],
         ),
       ],
@@ -119,6 +197,8 @@ class _Expandable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChamberBloc chamberBloc = Provider.of<ChamberBloc>(context);
+    List<Appointment> appt;
+
     return ExpandableNotifier(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 5.0),
@@ -138,10 +218,14 @@ class _Expandable extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
+
+
+
                     //                 // collapsed: Text(
                     //                 //   "Serial No: ${appointment.serialNo}",
                     //                 //   style: TextStyle(color: Colors.white),
-                    //                 //   softWrap: true,
+                    //                 //   softWap: true,
                     //                 //   maxLines: 1,
                     //                 //   overflow: TextOverflow.ellipsis,
                     //                 // ),
@@ -150,11 +234,14 @@ class _Expandable extends StatelessWidget {
                       iconColor: blue,
                       tapBodyToExpand: true,
                     ),
+
                     //tapHeaderToExpand: true,
                     // hasIcon: true,
                   ),
                 ),
               ),
+
+
               _Status(chamberBloc.getStatus(schedule.id)),
             ],
           ),

@@ -79,7 +79,7 @@ class _PrescriptionScreenState extends State<AddPrescriptionScreen>
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> map = ModalRoute.of(context).settings.arguments;
-    Appointment appointment = map['appointment'];
+    Appointment appointment = map['appointment'];   //as ami list er 1st item nitesi
     String name = map['name'];
     String gender = map['gender'];
     String age = map['age'];
