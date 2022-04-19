@@ -33,6 +33,7 @@ class Messenger {
         String jwt = sharedPreferences.getString('jwt');
         
           print('join');
+          // _chamberBloc.setOnline(schedule.id);
           _socket.emit('join', {
             'token': 'Bearer ' + jwt,
             'type': 'doctor',

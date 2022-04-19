@@ -37,7 +37,7 @@ class VideoCallScreen extends StatelessWidget {
                 case CallState.EndCall:
                   WidgetsBinding.instance.addPostFrameCallback(
                     (_) => Navigator.popUntil(
-                        context, ModalRoute.withName(appointmentDetailsScreen)),
+                        context, ModalRoute.withName(chamberScreen)),
                   );
                   break;
                 default:
