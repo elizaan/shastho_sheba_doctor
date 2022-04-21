@@ -17,6 +17,11 @@ class Schedule {
 
   Schedule({this.id, this.weekDay, this.start, this.end, this.fee, this.limit});
 
+  @override
+  String toString(){
+    return '${this.id}';
+  }
+
   static double _parseDouble(dynamic value) {
     if (value is int) {
       return value + .0;

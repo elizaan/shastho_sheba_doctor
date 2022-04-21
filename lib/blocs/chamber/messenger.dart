@@ -14,7 +14,13 @@ class Messenger {
 
   Messenger(this._url, this._chamberBloc);
 
-  void init(Schedule schedule) async {
+  // void init(Schedule schedule) async {
+  //   _socket = io(_url, <String, dynamic>{
+  //     'transports': ['websocket'],
+  //     'autoConnect': false,
+  //   });
+
+  void init(List<Appointment> appointments) async {
     _socket = io(_url, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -26,21 +32,42 @@ class Messenger {
 
     _socket.on(
       'connect',
-      (_) async {
+          (_) async {
         print('connect');
         SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
         String jwt = sharedPreferences.getString('jwt');
-        
+        appointments.forEach((appointment) {
           print('join');
+          print('after join');
+          print(appointment);
           _socket.emit('join', {
             'token': 'Bearer ' + jwt,
             'type': 'doctor',
-            'chamberId': schedule.id,
+            //'chamberId': appointment.id,
+            'chamberId': appointment.scheduleId,
           });
-       
+        });
       },
     );
+
+    // _socket.on(
+    //   'connect',
+    //   (_) async {
+    //     print('connect');
+    //     SharedPreferences sharedPreferences =
+    //         await SharedPreferences.getInstance();
+    //     String jwt = sharedPreferences.getString('jwt');
+    //
+    //       print('join');
+    //       _socket.emit('join', {
+    //         'token': 'Bearer ' + jwt,
+    //         'type': 'doctor',
+    //         'chamberId': schedule.id,
+    //       });
+    //
+    //   },
+    // );
 
     _socket.on('msg', (data) {
       signaling.onMessage(data);

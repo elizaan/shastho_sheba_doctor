@@ -150,85 +150,7 @@ class PreviewPrescriptionScreen extends StatelessWidget {
                       SizedBox(
                         height: 10.0,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                'Weight(Kg): ',
-                                style: M.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                (addPrescriptionBloc.weight.length == 0
-                                    ? 'N/A'
-                                    : addPrescriptionBloc.weight),
-                                style: M,
-                              ),
-                              Spacer(),
-                              Text(
-                                'Body Temperature: ',
-                                style: M.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                addPrescriptionBloc.temp.length == 0
-                                    ? 'N/A'
-                                    : addPrescriptionBloc.temp,
-                                style: M,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                'Pulse Count: ',
-                                style: M.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                addPrescriptionBloc.pc.length == 0
-                                    ? 'N/A'
-                                    : addPrescriptionBloc.pc,
-                                style: M,
-                              ),
-                              Spacer(),
-                              Text(
-                                'Blood Pressure: ',
-                                style: M.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                addPrescriptionBloc.bp.length == 0
-                                    ? 'N/A'
-                                    : addPrescriptionBloc.bp,
-                                style: M,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                'Blood Sugar Level: ',
-                                style: M.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                addPrescriptionBloc.bs.length == 0
-                                    ? 'N/A'
-                                    : addPrescriptionBloc.bs,
-                                style: M,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+
                       Divider(
                         color: blue,
                         thickness: 2.0,
@@ -509,7 +431,7 @@ class PreviewPrescriptionScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).popUntil((Route<dynamic> route) {
                   bool shouldPop = false;
-                  if (route.settings.name == appointmentDetailsScreen) {
+                  if (route.settings.name == chamberScreen) {
                     shouldPop = true;
                   }
                   return shouldPop;

@@ -32,9 +32,14 @@ class ChamberBloc extends ChangeNotifier implements BaseBloc {
     try {
        List<Appointment> data =
            await _chamberRepository.appointmentList(_schedule);
-      messenger.init(_schedule);
+      // messenger.init(_schedule);
+       messenger.init(data);
+       print('printing the idddd');
+       print(data[0]);
       // data.forEach((appointment) => online.addAll({appointment.id: false}));
-      online.addAll({_schedule.id: false});
+       data.forEach((appointment) => online.addAll({appointment.scheduleId: false}));
+      //  data.forEach((appointment) => online.addAll({_schedule.id: false}));
+      // online.addAll({_schedule.id: false});
       sink.add(Response.completed(data));
     } catch (e) {
       sink.add(Response.error(e.toString()));
@@ -57,6 +62,7 @@ class ChamberBloc extends ChangeNotifier implements BaseBloc {
   }
 
   bool getStatus(String appointmentId) {
+    //online[appointmentId] = online[appointmentId] ?? false;
     return online[appointmentId];
   }
 
