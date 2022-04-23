@@ -25,6 +25,7 @@ class AddPrescriptionBloc extends ChangeNotifier implements BaseBloc {
   TextEditingController medicineController;
   TextEditingController dosageController;
   TextEditingController durationController;
+  TextEditingController timingController;
 
   TextEditingController symptomController;
 
@@ -63,6 +64,7 @@ class AddPrescriptionBloc extends ChangeNotifier implements BaseBloc {
     medicineController = TextEditingController();
     dosageController = TextEditingController();
     durationController = TextEditingController();
+    timingController = TextEditingController();
     symptomController = TextEditingController();
     adviseController = TextEditingController();
     testController = TextEditingController();
@@ -78,11 +80,13 @@ class AddPrescriptionBloc extends ChangeNotifier implements BaseBloc {
       name: medicineController.text,
       dose: dosageController.text,
       days: durationController.text,
+      timing:timingController.text,
     );
     _medicineList.add(medicine);
     medicineController.clear();
     dosageController.clear();
     durationController.clear();
+    timingController.clear();
     notifyListeners();
   }
 

@@ -20,9 +20,10 @@ class MedicineTab extends StatelessWidget {
               Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: {
-                  0: FlexColumnWidth(3.0),
-                  1: FlexColumnWidth(3.0),
+                  0: FlexColumnWidth(1.0),
+                  1: FlexColumnWidth(2.0),
                   2: FlexColumnWidth(1.0),
+                  3:FlexColumnWidth(2.0)
                 },
                 children: <TableRow>[
                   TableRow(
@@ -51,6 +52,14 @@ class MedicineTab extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
+                      Container(
+                        padding: EdgeInsets.all(cellPadding),
+                        child: Text(
+                          'Timing',
+                          style: M,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ],
                   ),
                   ...addPrescriptionBloc.medicines
@@ -63,7 +72,7 @@ class MedicineTab extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.all(cellPadding),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderRadius: BorderRadius.circular(20.0),
                                   color: Colors.white,
                                 ),
                                 child: Text(
@@ -75,7 +84,7 @@ class MedicineTab extends StatelessWidget {
                                 padding: EdgeInsets.all(cellPadding),
                                 margin: EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderRadius: BorderRadius.circular(20.0),
                                   color: Colors.white,
                                 ),
                                 child: Text(
@@ -87,11 +96,23 @@ class MedicineTab extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.all(cellPadding),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderRadius: BorderRadius.circular(25.0),
                                   color: Colors.white,
                                 ),
                                 child: Text(
                                   medicine.days,
+                                  style: M,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(cellPadding),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  color: Colors.white,
+                                ),
+                                child: Text(
+                                  medicine.timing,
                                   style: M,
                                   textAlign: TextAlign.center,
                                 ),
@@ -109,7 +130,7 @@ class MedicineTab extends StatelessWidget {
                 child: Row(
                   children: [
                     Flexible(
-                      flex: 3,
+                      flex: 2,
                       child: Container(
                         child: TextFormField(
                           controller: addPrescriptionBloc.medicineController,
@@ -117,7 +138,7 @@ class MedicineTab extends StatelessWidget {
                             contentPadding: EdgeInsets.all(10.0),
                             isDense: true,
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
                             labelText: 'Medicine',
                           ),
@@ -125,7 +146,7 @@ class MedicineTab extends StatelessWidget {
                       ),
                     ),
                     Flexible(
-                      flex: 3,
+                      flex: 2,
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         child: TextFormField(
@@ -134,7 +155,7 @@ class MedicineTab extends StatelessWidget {
                             contentPadding: EdgeInsets.all(10.0),
                             isDense: true,
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
                             labelText: 'Dose',
                           ),
@@ -142,16 +163,30 @@ class MedicineTab extends StatelessWidget {
                       ),
                     ),
                     Flexible(
-                      flex: 1,
+                      flex: 2,
                       child: TextFormField(
                         controller: addPrescriptionBloc.durationController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10.0),
                           isDense: true,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
                           labelText: 'Day',
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 2,
+                      child: TextFormField(
+                        controller: addPrescriptionBloc.timingController,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10.0),
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          labelText: 'Timing',
                         ),
                       ),
                     ),
