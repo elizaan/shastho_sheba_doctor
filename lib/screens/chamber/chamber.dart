@@ -57,6 +57,17 @@ class ChamberScreen extends StatelessWidget {
                               child: Loading(response.message),
                             );
                           case Status.COMPLETED:
+                            if(response.data.length==0)
+                              {
+                                return Center(child:
+                                Text('No appointments today',
+                                style:TextStyle(
+                                    color: Colors.grey[800],
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                                )
+                                    
+                                ); }
                             return ListView.builder(
                               padding: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 0.0),
                               itemCount: response.data.length,

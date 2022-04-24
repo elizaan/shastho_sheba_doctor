@@ -258,6 +258,14 @@ class PreviewPrescriptionScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                 ),
                               ),
+                              Container(
+                                padding: EdgeInsets.all(cellPadding),
+                                child: Text(
+                                  'Timing',
+                                  style: M,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                             ],
                           ),
                           ...addPrescriptionBloc.medicines
@@ -286,6 +294,14 @@ class PreviewPrescriptionScreen extends StatelessWidget {
                                         padding: EdgeInsets.all(cellPadding),
                                         child: Text(
                                           medicine.days,
+                                          style: M,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(cellPadding),
+                                        child: Text(
+                                          medicine.timing,
                                           style: M,
                                           textAlign: TextAlign.center,
                                         ),
