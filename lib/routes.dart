@@ -12,3 +12,4 @@ String videoCallScreen = '/videoCall';
 String profileScreen = '/profile';
 String feedbackScreen = '/feedback';
 String transactionsScreen = '/transactions';
+String registScreen='/registration';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shastho_sheba_doctor/screens/Registration.dart';
 
 import 'models/doctor.dart';
 import 'screens/splash.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         videoCallScreen: (context) => VideoCallScreen(),
         profileScreen: (context) => ProfileScreen(),
         transactionsScreen: (context) => TransactionsScreen(),
+        registScreen:(context)=> Registration(),
       },
     );
   }

@@ -38,9 +38,10 @@ class Signaling {
   Map<String, dynamic> _iceServers = {
     'iceServers': [
       // {'url': 'stun:stun.l.google.com:19302'},
-      {'url':'turn:numb.viagenie.ca',
-        'username':'elizaan199834@gmail.com',
-         'credential':'fluttercd8'}
+      {'url':'turn:turn.shasthosheba.live:3478',
+        'username':'shastho_sheba',
+        'credential':'shastho_sheba12'},
+
 
       // {
       //   'url': 'turn:numb.viagenie.ca',

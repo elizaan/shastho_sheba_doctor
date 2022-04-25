@@ -196,34 +196,34 @@ class _ExpandableState extends State<_Expandable> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                TextFormField(
-                  controller: _feeController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: '1000.0',
-                    labelText: 'Fee',
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty || double.parse(value) < 0) {
-                      return 'Please enter fee';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _limitController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: '100',
-                    labelText: 'Patient Limit',
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty || int.parse(value) <= 0) {
-                      return 'Please enter patient limit';
-                    }
-                    return null;
-                  },
-                ),
+                // TextFormField(
+                //   controller: _feeController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: InputDecoration(
+                //     hintText: '1000.0',
+                //     labelText: 'Fee',
+                //   ),
+                //   validator: (value) {
+                //     if (value.isEmpty || double.parse(value) < 0) {
+                //       return 'Please enter fee';
+                //     }
+                //     return null;
+                //   },
+                // ),
+                // TextFormField(
+                //   controller: _limitController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: InputDecoration(
+                //     hintText: '100',
+                //     labelText: 'Patient Limit',
+                //   ),
+                //   validator: (value) {
+                //     if (value.isEmpty || int.parse(value) <= 0) {
+                //       return 'Please enter patient limit';
+                //     }
+                //     return null;
+                //   },
+                // ),
                 TimePickerFormField(
                   format: timeFormat,
                   initialTime: startTime,
@@ -261,31 +261,31 @@ class _ExpandableState extends State<_Expandable> {
                       );
                   return;
                 }
-                if (_limitController.text.length != 0 &&
-                    int.parse(_limitController.text) <= 0) {
-                  Fluttertoast.showToast(
-                      msg: "Patient limit can not be negative.",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity
-                          .BOTTOM // also possible "TOP" and "CENTER"
-                      );
-                  return;
-                }
-                if (_feeController.text.length != 0 &&
-                    double.parse(_feeController.text) < 0) {
-                  Fluttertoast.showToast(
-                      msg: "Fee can not be negative.",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM);
-                  return;
-                }
+                // if (_limitController.text.length != 0 &&
+                //     int.parse(_limitController.text) <= 0) {
+                //   Fluttertoast.showToast(
+                //       msg: "Patient limit can not be negative.",
+                //       toastLength: Toast.LENGTH_SHORT,
+                //       gravity: ToastGravity
+                //           .BOTTOM // also possible "TOP" and "CENTER"
+                //       );
+                //   return;
+                // }
+                // if (_feeController.text.length != 0 &&
+                //     double.parse(_feeController.text) < 0) {
+                //   Fluttertoast.showToast(
+                //       msg: "Fee can not be negative.",
+                //       toastLength: Toast.LENGTH_SHORT,
+                //       gravity: ToastGravity.BOTTOM);
+                //   return;
+                // }
 
                 ScheduleRepository scheduleRepository = ScheduleRepository();
                 try {
                   await scheduleRepository.editSchedule(Schedule(
                       id: schedule.id,
-                      fee: double.parse(_feeController.text),
-                      limit: int.parse(_limitController.text),
+                      // fee: double.parse(_feeController.text),
+                      // limit: int.parse(_limitController.text),
                       weekDay: schedule.weekDay,
                       start: DateTime(
                           2020, 1, 1, startTime.hour, startTime.minute),
@@ -329,8 +329,8 @@ class _ExpandableState extends State<_Expandable> {
   final timeFormat = DateFormat("h:mm a");
   TimeOfDay startTime;
   TimeOfDay endTime;
-  final TextEditingController _feeController = TextEditingController();
-  final TextEditingController _limitController = TextEditingController();
+  // final TextEditingController _feeController = TextEditingController();
+  // final TextEditingController _limitController = TextEditingController();
   Future<void> _addScheduleDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
@@ -341,34 +341,34 @@ class _ExpandableState extends State<_Expandable> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                TextFormField(
-                  controller: _feeController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: '1000',
-                    labelText: 'Fee',
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter fee';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _limitController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: '100',
-                    labelText: 'Patient Limit',
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter patient limit';
-                    }
-                    return null;
-                  },
-                ),
+                // TextFormField(
+                //   controller: _feeController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: InputDecoration(
+                //     hintText: '1000',
+                //     labelText: 'Fee',
+                //   ),
+                //   validator: (value) {
+                //     if (value.isEmpty) {
+                //       return 'Please enter fee';
+                //     }
+                //     return null;
+                //   },
+                // ),
+                // TextFormField(
+                //   controller: _limitController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: InputDecoration(
+                //     hintText: '100',
+                //     labelText: 'Patient Limit',
+                //   ),
+                //   validator: (value) {
+                //     if (value.isEmpty) {
+                //       return 'Please enter patient limit';
+                //     }
+                //     return null;
+                //   },
+                // ),
                 TimePickerFormField(
                   format: timeFormat,
                   initialTime: startTime,
@@ -406,32 +406,32 @@ class _ExpandableState extends State<_Expandable> {
                       );
                   return;
                 }
-                if (_limitController.text.length != 0 &&
-                    int.parse(_limitController.text) <= 0) {
-                  Fluttertoast.showToast(
-                      msg: "Patient limit can not be negative.",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity
-                          .BOTTOM // also possible "TOP" and "CENTER"
-                      );
-                  return;
-                }
-                if (_feeController.text.length != 0 &&
-                    double.parse(_feeController.text) < 0) {
-                  Fluttertoast.showToast(
-                      msg: "Fee can not be negative.",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity
-                          .BOTTOM // also possible "TOP" and "CENTER"
-                      );
-                  return;
-                }
+                // if (_limitController.text.length != 0 &&
+                //     int.parse(_limitController.text) <= 0) {
+                //   Fluttertoast.showToast(
+                //       msg: "Patient limit can not be negative.",
+                //       toastLength: Toast.LENGTH_SHORT,
+                //       gravity: ToastGravity
+                //           .BOTTOM // also possible "TOP" and "CENTER"
+                //       );
+                //   return;
+                // }
+                // if (_feeController.text.length != 0 &&
+                //     double.parse(_feeController.text) < 0) {
+                //   Fluttertoast.showToast(
+                //       msg: "Fee can not be negative.",
+                //       toastLength: Toast.LENGTH_SHORT,
+                //       gravity: ToastGravity
+                //           .BOTTOM // also possible "TOP" and "CENTER"
+                //       );
+                //   return;
+                // }
                 ScheduleRepository scheduleRepository = ScheduleRepository();
                 try {
                   await scheduleRepository.addSchedule(Schedule(
                       id: null,
-                      fee: double.parse(_feeController.text),
-                      limit: int.parse(_limitController.text),
+                      // fee: double.parse(_feeController.text),
+                      // limit: int.parse(_limitController.text),
                       weekDay: weekDay,
                       start: DateTime(
                           2020, 1, 1, startTime.hour, startTime.minute),
@@ -497,8 +497,8 @@ class _ExpandableState extends State<_Expandable> {
               ),
               color: blue,
               onPressed: () {
-                _feeController.text = schedule.fee.toString();
-                _limitController.text = schedule.limit.toString();
+                // _feeController.text = schedule.fee.toString();
+                // _limitController.text = schedule.limit.toString();
                 startTime = TimeOfDay(
                     hour: schedule.start.hour, minute: schedule.start.minute);
                 endTime = TimeOfDay(
@@ -522,8 +522,8 @@ class _ExpandableState extends State<_Expandable> {
               ),
               color: red,
               onPressed: () {
-                _feeController.text = schedule.fee.toString();
-                _limitController.text = schedule.limit.toString();
+                // _feeController.text = schedule.fee.toString();
+                // _limitController.text = schedule.limit.toString();
                 startTime = TimeOfDay(
                     hour: schedule.start.hour, minute: schedule.start.minute);
                 endTime = TimeOfDay(

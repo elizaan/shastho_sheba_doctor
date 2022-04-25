@@ -3,8 +3,8 @@ class Schedule {
   final int weekDay;
   final DateTime start;
   final DateTime end;
-  final double fee;
-  final int limit;
+  // final double fee;
+  // final int limit;
   static Map<int, String> _map = {
     1: 'Monday',
     2: 'Tuesday',
@@ -15,7 +15,7 @@ class Schedule {
     7: 'Sunday'
   };
 
-  Schedule({this.id, this.weekDay, this.start, this.end, this.fee, this.limit});
+  Schedule({this.id, this.weekDay, this.start, this.end});
 
   @override
   String toString(){
@@ -35,8 +35,8 @@ class Schedule {
       : id = json['_id'],
         weekDay = json['day'],
         start = DateTime.parse(json['time_start']),
-        fee = _parseDouble(json['fee']),
-        limit = (json['limit']),
+        // fee = _parseDouble(json['fee']),
+        // limit = (json['limit']),
         end = DateTime.parse(json['time_end']);
 
   Map<String, dynamic> toJson() {
@@ -45,8 +45,8 @@ class Schedule {
       'day': weekDay,
       'time_start': start.toIso8601String(),
       'time_end': end.toIso8601String(),
-      'fee': fee,
-      'limit': limit
+      // 'fee': fee,
+      // 'limit': limit
     };
   }
 }

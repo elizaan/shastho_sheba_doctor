@@ -7,6 +7,9 @@ import '../networking/customException.dart';
 
 class AuthenticationRepository {
   Api _api = Api();
+  Future<void> register(Doctor doctor) async {
+    await _api.post('/doctor/post/register', false, doctor);
+  }
 
   Future<String> login(String mobileNo, String password) async {
     final data = await _api.post('/doctor/post/login', false,

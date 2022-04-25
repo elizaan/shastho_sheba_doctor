@@ -58,9 +58,9 @@ class ChamberBloc extends ChangeNotifier implements BaseBloc {
     }
   }
 
-  double getFee() {
-    return _schedule.fee;
-  }
+  // double getFee() {
+  //   return _schedule.fee;
+  // }
 
   bool getStatus(String appointmentId) {
     //online[appointmentId] = online[appointmentId] ?? false;
