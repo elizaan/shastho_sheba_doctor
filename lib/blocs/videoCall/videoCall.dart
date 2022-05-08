@@ -15,15 +15,15 @@ class VideoCallBloc extends ChangeNotifier implements BaseBloc {
   Signaling _signaling;
   RTCVideoRenderer localRenderer = RTCVideoRenderer();
   RTCVideoRenderer remoteRenderer = RTCVideoRenderer();
-  //Appointment _appointment;
-  Schedule _schedule;
+  Appointment _appointment;
+  // Schedule _schedule;
   bool audio = true, video = true;
 
   StreamSink<Response<CallState>> get sink => _videoCallController.sink;
 
   Stream<Response<CallState>> get stream => _videoCallController.stream;
 
-  VideoCallBloc(this._signaling, this._schedule) {
+  VideoCallBloc(this._signaling, this._appointment) {
     _videoCallController = StreamController<Response<CallState>>();
 
     _signaling.onCallConnected =
@@ -46,7 +46,8 @@ class VideoCallBloc extends ChangeNotifier implements BaseBloc {
 
     _initRenderders();
 
-    _signaling.call(_schedule.id);
+    // _signaling.call(_schedule.id);
+    _signaling.call(_appointment.id);
 
     sink.add(Response.completed(CallState.Calling));
   }
@@ -71,7 +72,8 @@ class VideoCallBloc extends ChangeNotifier implements BaseBloc {
   }
 
   void endCall() {
-    _signaling.endCall(_schedule.id);
+    // _signaling.endCall(_schedule.id);
+    _signaling.endCall(_appointment.id);
   }
 
   @override

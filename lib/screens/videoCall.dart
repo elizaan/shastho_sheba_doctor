@@ -17,9 +17,10 @@ class VideoCallScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     Messenger messenger = args['messenger'];
-    Schedule schedule = args['schedule'];
+    Appointment appointment = args['appointment'];
+    // Schedule schedule = args['schedule'];
     return ChangeNotifierProvider(
-      create: (context) => VideoCallBloc(messenger.signaling, schedule),
+      create: (context) => VideoCallBloc(messenger.signaling, appointment),
       builder: (context, child) {
         VideoCallBloc videoCallBloc = Provider.of<VideoCallBloc>(context);
         return StreamBuilder(
@@ -31,7 +32,7 @@ class VideoCallScreen extends StatelessWidget {
               print(response.data);
               switch (response.data) {
                 case CallState.Calling:
-                  return _CallingScreen(schedule);
+                  return _CallingScreen(appointment);
                 case CallState.Connected:
                   return _VideoCall();
                 case CallState.EndCall:

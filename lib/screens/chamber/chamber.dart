@@ -67,7 +67,8 @@ class ChamberScreen extends StatelessWidget {
                                     fontSize: 20),
                                 )
                                     
-                                ); }
+                                );
+                              }
                             return ListView.builder(
                               padding: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 0.0),
                               itemCount: response.data.length,
@@ -133,17 +134,19 @@ class _Expandable extends StatelessWidget {
               textColor: Colors.white,
               color: blue,
               label: Text(
-                'Timeline',
+                'Video Call',
                 style: M,
               ),
-              onPressed: chamberBloc.getStatus(appointment.scheduleId) == true
+              // onPressed: chamberBloc.getStatus(appointment.scheduleId) == true
+              onPressed: chamberBloc.getStatus(appointment.id) == true
                   ? () {
                       Navigator.pushNamed(
                         context,
                         videoCallScreen,
                         arguments: {
                           'messenger': chamberBloc.messenger,
-                          'schedule': schedule
+                          // 'schedule': schedule
+                          'appointment': appointment
                         },
                       );
                     }
@@ -185,7 +188,8 @@ class _Expandable extends StatelessWidget {
                           'appointment': appointment,
                         },
                       );
-                    }),
+                    }
+                    ),
               ),
             ),
           ],
@@ -233,7 +237,8 @@ class _Expandable extends StatelessWidget {
                   ),
                 ),
               ),
-              _Status(chamberBloc.getStatus(appointment.scheduleId)),
+              // _Status(chamberBloc.getStatus(appointment.scheduleId)),
+              _Status(chamberBloc.getStatus(appointment.id))
             ],
           ),
         ),

@@ -14,6 +14,7 @@ Map<int, AppointmentStatus> map = {
 class Appointment {
   final String id;
   final String scheduleId;
+  final String patientId;
   Schedule schedule;
   Doctor doctor;
   Patient patient;
@@ -26,6 +27,7 @@ class Appointment {
   Appointment({
     this.id,
     this.scheduleId,
+    this.patientId,
     this.doctor,
     this.patient,
     this.dateTime,
@@ -38,7 +40,8 @@ class Appointment {
 
   @override
   String toString(){
-    return '${this.scheduleId}';
+    // return '${this.scheduleId}';
+    return '${this.patientId}';
   }
 
   static double _parseDouble(dynamic value) {
@@ -51,6 +54,7 @@ class Appointment {
   Appointment.fromJson(Map<String, dynamic> json)
       : id = json['_id'],
         scheduleId = json['schedule_id'],
+        patientId = json['patientId']['_id'],
         status = map[json['status']],
         serialNo = json['serial_no'],
         due = _parseDouble(json['due']),

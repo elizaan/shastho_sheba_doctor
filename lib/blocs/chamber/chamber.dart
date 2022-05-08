@@ -38,7 +38,8 @@ class ChamberBloc extends ChangeNotifier implements BaseBloc {
 
       // data.forEach((appointment) => online.addAll({appointment.id: false}));
        if(data.length>0){
-       data.forEach((appointment) => online.addAll({appointment.scheduleId: false}));}
+       // data.forEach((appointment) => online.addAll({appointment.scheduleId: false}));}
+       data.forEach((appointment) => online.addAll({appointment.id: false}));}
       //  data.forEach((appointment) => online.addAll({_schedule.id: false}));
       // online.addAll({_schedule.id: false});
       sink.add(Response.completed(data));

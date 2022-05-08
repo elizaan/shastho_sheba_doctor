@@ -45,7 +45,8 @@ class Messenger {
             'token': 'Bearer ' + jwt,
             'type': 'doctor',
             //'chamberId': appointment.id,
-            'chamberId': appointment.scheduleId,
+            // 'chamberId': appointment.scheduleId,
+            'chamberId': appointment.id,
           });
         });
       },
